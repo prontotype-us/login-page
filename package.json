@@ -1,0 +1,20 @@
+{
+    "name": "login-page",
+    "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/prontotype-us/login-page.git"
+    },
+    "main": "lib/index.js",
+    "scripts": {
+        "build": "cjsx --bare -o lib -c src"
+    },
+    "dependencies": {
+        "kefir-fetch": "0.1.x",
+        "react": "15.0.x",
+        "react-dom": "15.0.x",
+        "react-router": "2.x",
+        "underscore": "1.8.3",
+        "validated-form": "git+ssh://git@github.com/prontotype-us/validated-form.git"
+    }
+}
