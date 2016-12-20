@@ -1,9 +1,10 @@
 React = require 'react'
-_ = require 'underscore'
 {Router, Route, IndexRoute, Link, browserHistory} = require 'react-router'
 fetch$ = require 'kefir-fetch'
 
 {ValidatedFormMixin} = require 'validated-form'
+
+window.options = {}
 
 # Field definitions
 
@@ -60,6 +61,9 @@ LoginForm = React.createClass
         email: email_field
         password: password_field
 
+    getDefaultProps: ->
+        title: "Log in"
+
     getInitialState: ->
         values:
             email: ''
@@ -75,7 +79,7 @@ LoginForm = React.createClass
 
     render: ->
         <div>
-            <h3>Log in</h3>
+            <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
                 {@renderField('email')}
                 {@renderField('password')}
@@ -94,6 +98,9 @@ SignupForm = React.createClass
 
     url: '/signup.json'
 
+    getDefaultProps: ->
+        title: "Sign up"
+
     getInitialState: ->
         values:
             email: ''
@@ -109,7 +116,7 @@ SignupForm = React.createClass
 
     render: ->
         <div>
-            <h3>Sign up</h3>
+            <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
                 {@renderField('email')}
                 {@renderField('password')}
@@ -127,6 +134,9 @@ ForgotForm = React.createClass
 
     url: '/forgot.json'
 
+    getDefaultProps: ->
+        title: "Forgot your password?"
+
     getInitialState: ->
         values:
             email: ''
@@ -141,7 +151,7 @@ ForgotForm = React.createClass
 
     render: ->
         <div>
-            <h3>Forgot your password?</h3>
+            <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
                 {@renderField('email')}
                 <button type='submit' disabled={@state.loading}>
@@ -188,15 +198,16 @@ ResetForm = React.createClass
             @showSuccess()
 
     render: ->
-
-        <form onSubmit=@trySubmit>
-            <h3>Set your password</h3>
-            {@renderField('password')}
-            {@renderField('confirm_password')}
-            <button type='submit' disabled={@state.loading}>
-                {if @state.loading then 'Processing...' else 'Set password'}
-            </button>
-        </form>
+        <div>
+            <h3>{@props.title}</h3>
+            <form onSubmit=@trySubmit>
+                {@renderField('password')}
+                {@renderField('confirm_password')}
+                <button type='submit' disabled={@state.loading}>
+                    {if @state.loading then 'Processing...' else 'Set password'}
+                </button>
+            </form>
+        </div>
 
 ResetSuccess = ({location}) ->
     <div className='center'>
@@ -217,8 +228,6 @@ App = React.createClass
         active: 'login'
 
     render: ->
-        console.log '[App.render]', @props
-
         path = @props.routes.slice(-1)[0].name
         if !path.length or path=='unknown' then path = 'login'
 
@@ -240,7 +249,7 @@ App = React.createClass
             reset: null
 
         <div id='login-module' className='section'>
-            {@props.children}
+            {React.cloneElement @props.children, options[path]}
             {links[path]}
         </div>
 
@@ -250,8 +259,8 @@ setNext = (nextState, replace) ->
     next = nextState.location.pathname
     replace '/?next=' + next
 
-LoginPage = (options) ->
-    _.extend window.options, options
+LoginPage = ({options}) ->
+    Object.assign window.options, options
     routes =
         <Route path="/" component=App>
             <IndexRoute name="login" component=LoginForm />
