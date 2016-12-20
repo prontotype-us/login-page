@@ -36,7 +36,6 @@ Dispatcher =
         fetch$ 'post', url, {body: data}
 
 LoginMixin =
-
     showNext: (resp) ->
         next = @props.location.query.next || '/'
         window.location = next
@@ -48,21 +47,19 @@ LoginMixin =
         @setState {errors: resp.errors}
 
     onSubmit: (values) ->
-        @submitted$ = Dispatcher.doSubmit @url, values
+        @submitted$ = Dispatcher.doSubmit @props.url, values
         @submitted$.onValue @handleResponse
         @submitted$.onError @handleError
 
 LoginForm = React.createClass
     mixins: [ValidatedFormMixin, LoginMixin]
 
-    url: '/login.json'
-
-    fields:
-        email: email_field
-        password: password_field
-
     getDefaultProps: ->
         title: "Log in"
+        url: '/login.json'
+        fields:
+            email: email_field
+            password: password_field
 
     getInitialState: ->
         values:
@@ -81,8 +78,7 @@ LoginForm = React.createClass
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
-                {@renderField('email')}
-                {@renderField('password')}
+                {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
                     {if @state.loading then 'Logging in...' else 'Log in'}
                 </button>
@@ -92,14 +88,12 @@ LoginForm = React.createClass
 SignupForm = React.createClass
     mixins: [ValidatedFormMixin, LoginMixin]
 
-    fields:
-        email: email_field
-        password: password_field
-
-    url: '/signup.json'
-
     getDefaultProps: ->
         title: "Sign up"
+        url: '/signup.json'
+        fields:
+            email: email_field
+            password: password_field
 
     getInitialState: ->
         values:
@@ -118,8 +112,7 @@ SignupForm = React.createClass
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
-                {@renderField('email')}
-                {@renderField('password')}
+                {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
                     {if @state.loading then 'Signing up...' else 'Sign up'}
                 </button>
@@ -129,13 +122,11 @@ SignupForm = React.createClass
 ForgotForm = React.createClass
     mixins: [ValidatedFormMixin, LoginMixin]
 
-    fields:
-        email: email_field
-
-    url: '/forgot.json'
-
     getDefaultProps: ->
         title: "Forgot your password?"
+        url: '/forgot.json'
+        fields:
+            email: email_field
 
     getInitialState: ->
         values:
@@ -153,7 +144,7 @@ ForgotForm = React.createClass
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
-                {@renderField('email')}
+                {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
                     {if @state.loading then 'Processing...' else 'Reset password'}
                 </button>
@@ -176,12 +167,12 @@ ForgotSuccess = React.createClass
 ResetForm = React.createClass
     mixins: [ValidatedFormMixin, LoginMixin]
 
-    fields:
-        password: password_field
-        confirm_password: confirm_password_field
-        reset_token: token_field
-
-    url: '/reset.json'
+    getDefaultProps: ->
+        url: '/reset.json'
+        fields:
+            password: password_field
+            confirm_password: confirm_password_field
+            reset_token: token_field
 
     getInitialState: ->
         values:
@@ -201,8 +192,7 @@ ResetForm = React.createClass
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
-                {@renderField('password')}
-                {@renderField('confirm_password')}
+                {@renderField('email')}
                 <button type='submit' disabled={@state.loading}>
                     {if @state.loading then 'Processing...' else 'Set password'}
                 </button>
