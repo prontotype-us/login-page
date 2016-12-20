@@ -121,6 +121,7 @@ SignupForm = React.createClass
 
 ForgotForm = React.createClass
     mixins: [ValidatedFormMixin, LoginMixin]
+
     fields:
         email: email_field
 
@@ -139,14 +140,15 @@ ForgotForm = React.createClass
             @showSuccess()
 
     render: ->
-
-        <form onSubmit=@trySubmit>
+        <div>
             <h3>Forgot your password?</h3>
-            {@renderField('email')}
-            <button type='submit' disabled={@state.loading}>
-                {if @state.loading then 'Processing...' else 'Reset password'}
-            </button>
-        </form>
+            <form onSubmit=@trySubmit>
+                {@renderField('email')}
+                <button type='submit' disabled={@state.loading}>
+                    {if @state.loading then 'Processing...' else 'Reset password'}
+                </button>
+            </form>
+        </div>
 
 ForgotSuccess = React.createClass
     render: ->
@@ -163,6 +165,7 @@ ForgotSuccess = React.createClass
 
 ResetForm = React.createClass
     mixins: [ValidatedFormMixin, LoginMixin]
+
     fields:
         password: password_field
         confirm_password: confirm_password_field
@@ -195,21 +198,19 @@ ResetForm = React.createClass
             </button>
         </form>
 
-ResetSuccess = React.createClass
-
-    render: ->
-        <div className='center'>
-            {if options.success_view
-                options.success_view
-            else
-                <div>
-                    <h3>Successfully set your password</h3>
-                    <div className='form-links'>
-                        <Link to={pathname: "/login", query: @props.location.query}>Continue to login</Link>
-                    </div>
+ResetSuccess = ({location}) ->
+    <div className='center'>
+        {if options.success_view
+            options.success_view
+        else
+            <div>
+                <h3>Successfully set your password</h3>
+                <div className='form-links'>
+                    <Link to={pathname: "/login", query: location.query}>Continue to login</Link>
                 </div>
-            }
-        </div>
+            </div>
+        }
+    </div>
 
 App = React.createClass
     getInitialState: ->
