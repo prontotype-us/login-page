@@ -1,8 +1,9 @@
 React = require 'react'
-{Router, Route, IndexRoute, Link, browserHistory} = require 'react-router'
+{Router, Route, IndexRoute, Link, hashHistory, browserHistory} = require 'react-router'
 fetch$ = require 'kefir-fetch'
-
 {ValidatedFormMixin} = require 'validated-form'
+
+history = browserHistory
 
 window.options = {}
 
@@ -41,7 +42,7 @@ LoginMixin =
         window.location = next
 
     showSuccess: ->
-        browserHistory.push {pathname: @props.location.pathname + '/success', query: @props.location.query}
+        history.push {pathname: @props.location.pathname + '/success', query: @props.location.query}
 
     handleError: (resp) ->
         @setState {errors: resp.errors}
@@ -221,26 +222,38 @@ App = React.createClass
         path = @props.routes.slice(-1)[0].name
         if !path.length or path=='unknown' then path = 'login'
 
+        tabs =
+            <div className='login-tabs'>
+                {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query} activeClassName='active'>Log in</Link>}
+                {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query} activeClassName='active'>Sign up</Link>}
+            </div>
+
         links =
             login:
-                <div className='form-links'>
+                <div className='login-links'>
                     {if !options.hide_forgot then <Link to={pathname: "/forgot", query: @props.location.query}>Forgot Password?</Link>}
                     {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query}>Don't have an account?</Link>}
                 </div>
             signup:
-                <div className='form-links'>
+                <div className='login-links'>
                     {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query}>Already have an account?</Link>}
                 </div>
             forgot:
-                <div className='form-links'>
+                <div className='login-links'>
                     {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query}>&laquo; Nevermind</Link>}
-                    {if @props.has_signup then <Link to={pathname: "/signup", query: @props.location.query}>Don't have an account?</Link>}
+                    {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query}>Don't have an account?</Link>}
                 </div>
             reset: null
 
-        <div id='login-module' className='section'>
-            {React.cloneElement @props.children, options[path]}
-            {links[path]}
+        <div id='login-page'>
+            {options.header}
+            {if !options.hide_tabs then tabs}
+            <div id='login-inner'>
+                {options[path]?.extras}
+                {React.cloneElement @props.children, options[path]}
+                {links[path]}
+            </div>
+            {options.footer}
         </div>
 
 window.options = {}
@@ -265,7 +278,7 @@ LoginPage = ({options}) ->
             {options.extra_routes}
             <Route path="*" name="unknown" component=LoginForm onEnter=setNext />
         </Route>
-    <Router routes=routes history=browserHistory />
+    <Router routes=routes history=history />
 
 module.exports = {
     LoginPage
