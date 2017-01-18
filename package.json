@@ -1,13 +1,6 @@
 {
-  "_args": [
-    [
-      {},
-      "/Users/sean/Projects/levelsolar-users"
-    ]
-  ],
-  "_where": "/Users/sean/Projects/levelsolar-users",
   "name": "login-page",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "http://github.com/prontotype-us/login-page.git"
@@ -19,9 +12,8 @@
   "dependencies": {
     "kefir-fetch": "0.1.x",
     "react": "^15.4.2",
-    "react-dom": "15.0.x",
-    "react-router": "2.x",
-    "underscore": "1.8.3",
+    "react-dom": "^15.4.2",
+    "react-router": "^3.0.2",
     "validated-form": "git+ssh://git@github.com/prontotype-us/validated-form.git"
   }
 }
