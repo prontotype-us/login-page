@@ -38,7 +38,7 @@ Dispatcher =
 
 LoginMixin =
     showNext: (resp) ->
-        next = @props.location.query.next || '/'
+        next = resp?.redirect || @props.location.query.next || '/'
         window.location = next
 
     showSuccess: ->
@@ -73,7 +73,7 @@ LoginForm = React.createClass
         if resp.errors?
             @handleError resp
         else
-            @showNext()
+            @showNext resp
 
     render: ->
         <div>
