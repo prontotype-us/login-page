@@ -193,7 +193,8 @@ ResetForm = React.createClass
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
-                {@renderField('email')}
+                {@renderField('password')}
+                {@renderField('confirm_password')}
                 <button type='submit' disabled={@state.loading}>
                     {if @state.loading then 'Processing...' else 'Set password'}
                 </button>
