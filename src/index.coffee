@@ -107,7 +107,7 @@ SignupForm = React.createClass
         if resp.errors?
             @handleError resp
         else
-            @showNext()
+            @showNext resp
 
     render: ->
         <div>
