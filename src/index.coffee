@@ -195,6 +195,7 @@ ResetForm = React.createClass
             <form onSubmit=@trySubmit>
                 {@renderField('password')}
                 {@renderField('confirm_password')}
+                {@renderField('reset_token')}
                 <button type='submit' disabled={@state.loading}>
                     {if @state.loading then 'Processing...' else 'Set password'}
                 </button>
