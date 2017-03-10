@@ -97,11 +97,14 @@ SignupForm = React.createClass
             password: password_field
 
     getInitialState: ->
-        values:
-            email: ''
-            password: ''
-        errors: {}
-        loading: false
+        initial_values = {}
+        Object.keys(@props.fields).map (f_k) =>
+            initial_values[f_k] = @props.fields[f_k]?.value || ''
+        return {
+            values: initial_values
+            errors: {}
+            loading: false
+        }
 
     handleResponse: (resp) ->
         if resp.errors?
@@ -194,7 +197,9 @@ ResetForm = React.createClass
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
-                {@renderField('email')}
+                {@renderField('password')}
+                {@renderField('confirm_password')}
+                {@renderField('reset_token')}
                 <button type='submit' disabled={@state.loading}>
                     {if @state.loading then 'Processing...' else 'Set password'}
                 </button>
