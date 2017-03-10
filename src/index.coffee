@@ -190,6 +190,7 @@ ResetForm = React.createClass
             @showSuccess()
 
     render: ->
+        console.log 'hello jones', @props
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
@@ -249,9 +250,10 @@ App = React.createClass
             {options.header}
             {if !options.hide_tabs then tabs}
             <div id='login-inner'>
-                {options[path]?.extras}
+                {options[path]?.intro}
                 {React.cloneElement @props.children, options[path]}
                 {links[path]}
+                {options[path]?.extras}
             </div>
             {options.footer}
         </div>
