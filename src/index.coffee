@@ -193,7 +193,7 @@ ResetForm = React.createClass
             @showSuccess()
 
     render: ->
-        console.log 'hello jones', @props
+
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
@@ -230,7 +230,7 @@ App = React.createClass
 
         tabs =
             <div className='login-tabs'>
-                {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query} activeClassName='active'>Log in</Link>}
+                {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query} activeClassName='active' className={if path=='login' then 'active' else ''}>Log in</Link>}
                 {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query} activeClassName='active'>Sign up</Link>}
             </div>
 
