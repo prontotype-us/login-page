@@ -39,6 +39,8 @@ Dispatcher =
 LoginMixin =
     showNext: (resp) ->
         next = resp?.redirect || @props.location.query.next || '/'
+        if window.location.hash?.length
+            next += window.location.hash
         window.location = next
 
     showSuccess: ->
