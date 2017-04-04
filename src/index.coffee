@@ -115,8 +115,6 @@ SignupForm = React.createClass
             @showNext resp
 
     render: ->
-        console.log '[SignupForm.render] @props =', @props
-        console.log '[SignupForm.render] @state =', @state
         <div>
             <h3>{@props.title}</h3>
             <form onSubmit=@trySubmit>
