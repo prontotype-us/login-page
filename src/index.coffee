@@ -125,6 +125,43 @@ SignupForm = React.createClass
             </form>
         </div>
 
+SetupForm = React.createClass
+    mixins: [ValidatedFormMixin, LoginMixin]
+
+    getDefaultProps: ->
+        title: "Sign up"
+        url: '/setup.json'
+        fields:
+            email: email_field
+            password: password_field
+
+    getInitialState: ->
+        initial_values = {}
+        Object.keys(@props.fields).map (f_k) =>
+            initial_values[f_k] = @props.fields[f_k]?.value || ''
+        return {
+            values: initial_values
+            errors: {}
+            loading: false
+        }
+
+    handleResponse: (resp) ->
+        if resp.errors?
+            @handleError resp
+        else
+            @showNext resp
+
+    render: ->
+        <div>
+            <h3>{@props.title}</h3>
+            <form onSubmit=@trySubmit>
+                {@renderFields()}
+                <button type='submit' disabled={@state.loading}>
+                    {if @state.loading then 'Signing up...' else 'Sign up'}
+                </button>
+            </form>
+        </div>
+
 ForgotForm = React.createClass
     mixins: [ValidatedFormMixin, LoginMixin]
 
@@ -215,7 +252,7 @@ ResetSuccess = ({location}) ->
         else
             <div>
                 <h3>Successfully set your password</h3>
-                <div className='form-links'>
+                <div className='login-links'>
                     <Link to={pathname: "/login", query: location.query}>Continue to login</Link>
                 </div>
             </div>
@@ -253,7 +290,7 @@ App = React.createClass
                 </div>
             reset: null
 
-        <div id='login-page'>
+        <div id='login-page' className="#{path}" >
             {options.header}
             {if !options.hide_tabs then tabs}
             <div id='login-inner'>
@@ -284,6 +321,7 @@ LoginPage = ({options}) ->
             {if !options.hide_signup then <Route path="signup" name="signup" component=SignupForm />}
             {if !options.hide_forgot then <Route path="forgot" name="forgot" component=ForgotForm />}
             {if !options.hide_forgot then <Route path="forgot/success" name="forgot-success" component=ForgotSuccess />}
+            {if !options.hide_setup then <Route path="setup" name="setup" component=SetupForm />}
             {options.extra_routes}
             <Route path="*" name="unknown" component=LoginForm onEnter=setNext />
         </Route>
