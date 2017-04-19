@@ -65,11 +65,14 @@ LoginForm = React.createClass
             password: password_field
 
     getInitialState: ->
-        values:
-            email: ''
-            password: ''
-        errors: {}
-        loading: false
+        initial_values = {}
+        Object.keys(@props.fields).map (f_k) =>
+            initial_values[f_k] = @props.fields[f_k]?.value || ''
+        return {
+            values: initial_values
+            errors: {}
+            loading: false
+        }
 
     handleResponse: (resp) ->
         if resp.errors?
