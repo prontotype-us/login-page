@@ -116,6 +116,8 @@ SignupForm = React.createClass
     handleResponse: (response) ->
         if response.errors?
             @handleError response
+        else if @props.onSuccess?
+            @props.onSuccess response
         else
             @showNext response
 
@@ -153,6 +155,8 @@ SetupForm = React.createClass
     handleResponse: (response) ->
         if response.errors?
             @handleError response
+        else if @props.onSuccess?
+            @props.onSuccess response
         else
             @showNext response
 
@@ -185,6 +189,8 @@ ForgotForm = React.createClass
     handleResponse: (response) ->
         if response.errors?
             @handleError response
+        else if @props.onSuccess?
+            @props.onSuccess response
         else
             @showSuccess()
 
@@ -233,6 +239,8 @@ ResetForm = React.createClass
     handleResponse: (response) ->
         if response.errors?
             @handleError response
+        else if @props.onSuccess?
+            @props.onSuccess response
         else
             @showSuccess()
 
