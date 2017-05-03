@@ -37,8 +37,8 @@ Dispatcher =
         fetch$ 'post', url, {body: data}
 
 LoginMixin =
-    showNext: (resp) ->
-        next = resp?.redirect || @props.location.query.next || '/'
+    showNext: (response) ->
+        next = response?.redirect || @props.location.query.next || '/'
         if window.location.hash?.length
             next += window.location.hash
         window.location = next
@@ -46,8 +46,8 @@ LoginMixin =
     showSuccess: ->
         history.push {pathname: @props.location.pathname + '/success', query: @props.location.query}
 
-    handleError: (resp) ->
-        @setState {errors: resp.errors}
+    handleError: (response) ->
+        @setState {errors: response.errors}
 
     onSubmit: (values) ->
         @submitted$ = Dispatcher.doSubmit @props.url, values
@@ -74,11 +74,13 @@ LoginForm = React.createClass
             loading: false
         }
 
-    handleResponse: (resp) ->
-        if resp.errors?
-            @handleError resp
+    handleResponse: (response) ->
+        if response.errors?
+            @handleError response
+        else if @props.onSuccess?
+            @props.onSuccess response
         else
-            @showNext resp
+            @showNext response
 
     render: ->
         <div>
@@ -111,11 +113,11 @@ SignupForm = React.createClass
             loading: false
         }
 
-    handleResponse: (resp) ->
-        if resp.errors?
-            @handleError resp
+    handleResponse: (response) ->
+        if response.errors?
+            @handleError response
         else
-            @showNext resp
+            @showNext response
 
     render: ->
         <div>
@@ -148,11 +150,11 @@ SetupForm = React.createClass
             loading: false
         }
 
-    handleResponse: (resp) ->
-        if resp.errors?
-            @handleError resp
+    handleResponse: (response) ->
+        if response.errors?
+            @handleError response
         else
-            @showNext resp
+            @showNext response
 
     render: ->
         <div>
@@ -180,9 +182,9 @@ ForgotForm = React.createClass
         errors: {}
         loading: false
 
-    handleResponse: (resp) ->
-        if resp.errors?
-            @handleError resp
+    handleResponse: (response) ->
+        if response.errors?
+            @handleError response
         else
             @showSuccess()
 
@@ -228,9 +230,9 @@ ResetForm = React.createClass
         errors: {}
         loading: false
 
-    handleResponse: (resp) ->
-        if resp.errors?
-            @handleError resp
+    handleResponse: (response) ->
+        if response.errors?
+            @handleError response
         else
             @showSuccess()
 
