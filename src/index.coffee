@@ -47,7 +47,7 @@ LoginMixin =
         history.push {pathname: @props.location.pathname + '/success', query: @props.location.query}
 
     handleError: (response) ->
-        @setState {errors: response.errors}
+        @setState {errors: response.errors, loading: false}
 
     onSubmit: (values) ->
         @submitted$ = Dispatcher.doSubmit @props.url, values
