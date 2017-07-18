@@ -308,6 +308,7 @@ App = React.createClass
             {if !options.hide_tabs then tabs}
             <div id='login-inner'>
                 {options[path]?.intro}
+                {options[path]?.befores}
                 {React.cloneElement @props.children, options[path]}
                 {links[path]}
                 {options[path]?.extras}
