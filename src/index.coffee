@@ -84,7 +84,9 @@ LoginForm = React.createClass
 
     render: ->
         <div>
-            <h3>{@props.title}</h3>
+            {if @props.title?
+                <h3>{@props.title}</h3>
+            }
             <form onSubmit=@trySubmit>
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
@@ -123,7 +125,9 @@ SignupForm = React.createClass
 
     render: ->
         <div>
-            <h3>{@props.title}</h3>
+            {if @props.title?
+                <h3>{@props.title}</h3>
+            }
             <form onSubmit=@trySubmit>
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
@@ -162,7 +166,9 @@ SetupForm = React.createClass
 
     render: ->
         <div>
-            <h3>{@props.title}</h3>
+            {if @props.title?
+                <h3>{@props.title}</h3>
+            }
             <form onSubmit=@trySubmit>
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
@@ -196,7 +202,9 @@ ForgotForm = React.createClass
 
     render: ->
         <div>
-            <h3>{@props.title}</h3>
+            {if @props.title?
+                <h3>{@props.title}</h3>
+            }
             <form onSubmit=@trySubmit>
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
@@ -247,7 +255,9 @@ ResetForm = React.createClass
     render: ->
 
         <div>
-            <h3>{@props.title}</h3>
+            {if @props.title?
+                <h3>{@props.title}</h3>
+            }
             <form onSubmit=@trySubmit>
                 {@renderField('password')}
                 {@renderField('confirm_password')}
