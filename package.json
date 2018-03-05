@@ -1,9 +1,9 @@
 {
-  "name": "login-page",
+  "name": "pronto-login-page",
   "version": "0.1.5",
   "repository": {
     "type": "git",
-    "url": "http://github.com/prontotype-us/login-page.git"
+    "url": "http://github.com/prontotype-us/pronto-login-page.git"
   },
   "main": "lib/index.js",
   "scripts": {
@@ -14,6 +14,6 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^3.0.2",
-    "validated-form": "git+ssh://git@github.com/prontotype-us/validated-form.git"
+    "pronto-validated-form": "0.1.15"
   }
 }
