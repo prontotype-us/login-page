@@ -1,7 +1,7 @@
 React = require 'react'
 {Router, Route, IndexRoute, Link, hashHistory, browserHistory} = require 'react-router'
 fetch$ = require 'kefir-fetch'
-{ValidatedFormMixin} = require 'validated-form'
+{ValidatedFormMixin} = require 'pronto-validated-form'
 
 history = browserHistory
 
