@@ -195,8 +195,8 @@ ForgotForm = React.createClass
         fields:
             email: email_field
         button:
-            text: 'Processing...'
-            submitting_text: 'Reset password'
+            text: 'Reset password'
+            submitting_text: 'Processing...'
 
     getInitialState: ->
         values:
@@ -248,8 +248,8 @@ ResetForm = React.createClass
             confirm_password: confirm_password_field
             reset_token: token_field
         button:
-            text: 'Processing...'
-            submitting_text: 'Set password'
+            text: 'Set password'
+            submitting_text: 'Processing...'
 
     getInitialState: ->
         values:
