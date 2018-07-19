@@ -63,6 +63,9 @@ LoginForm = React.createClass
         fields:
             email: email_field
             password: password_field
+        button:
+            text: 'Log in'
+            submitting_text: 'Logging in...'
 
     getInitialState: ->
         initial_values = {}
@@ -90,7 +93,7 @@ LoginForm = React.createClass
             <form onSubmit=@trySubmit>
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
-                    {if @state.loading then 'Logging in...' else 'Log in'}
+                    {if @state.loading then @props.button.submitting_text else @props.button.text}
                 </button>
             </form>
         </div>
@@ -104,6 +107,9 @@ SignupForm = React.createClass
         fields:
             email: email_field
             password: password_field
+        button:
+            text: 'Sign up'
+            submitting_text: 'Signing up...'
 
     getInitialState: ->
         initial_values = {}
@@ -131,7 +137,7 @@ SignupForm = React.createClass
             <form onSubmit=@trySubmit>
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
-                    {if @state.loading then 'Signing up...' else 'Sign up'}
+                    {if @state.loading then @props.button.submitting_text else @props.button.text}
                 </button>
             </form>
         </div>
@@ -145,6 +151,9 @@ SetupForm = React.createClass
         fields:
             email: email_field
             password: password_field
+        button:
+            text: 'Sign up'
+            submitting_text: 'Signing up...'
 
     getInitialState: ->
         initial_values = {}
@@ -172,7 +181,7 @@ SetupForm = React.createClass
             <form onSubmit=@trySubmit>
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
-                    {if @state.loading then 'Signing up...' else 'Sign up'}
+                    {if @state.loading then @props.button.submitting_text else @props.button.text}
                 </button>
             </form>
         </div>
@@ -185,6 +194,9 @@ ForgotForm = React.createClass
         url: '/forgot.json'
         fields:
             email: email_field
+        button:
+            text: 'Processing...'
+            submitting_text: 'Reset password'
 
     getInitialState: ->
         values:
@@ -208,7 +220,7 @@ ForgotForm = React.createClass
             <form onSubmit=@trySubmit>
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
-                    {if @state.loading then 'Processing...' else 'Reset password'}
+                    {if @state.loading then @props.button.submitting_text else @props.button.text}
                 </button>
             </form>
         </div>
@@ -235,6 +247,9 @@ ResetForm = React.createClass
             password: password_field
             confirm_password: confirm_password_field
             reset_token: token_field
+        button:
+            text: 'Processing...'
+            submitting_text: 'Set password'
 
     getInitialState: ->
         values:
@@ -263,7 +278,7 @@ ResetForm = React.createClass
                 {@renderField('confirm_password')}
                 {@renderField('reset_token')}
                 <button type='submit' disabled={@state.loading}>
-                    {if @state.loading then 'Processing...' else 'Set password'}
+                    {if @state.loading then @props.button.submitting_text else @props.button.text}
                 </button>
             </form>
         </div>
