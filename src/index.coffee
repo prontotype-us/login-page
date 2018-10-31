@@ -305,10 +305,22 @@ App = React.createClass
         path = @props.routes.slice(-1)[0].name
         if !path.length or path=='unknown' then path = 'login'
 
-        tabs =
+        login_tab = if !options.hide_login
+            login_tab_class = if path == 'login' or (!options.signup_first and path=='/') then 'active' else ''
+            <Link to={pathname: "/login", query: @props.location.query} activeClassName='active' className=login_tab_class>Log in</Link>
+        signup_tab = if !options.hide_signup
+            signup_tab_class = if path == 'signup' or (options.signup_first and path=='/') then 'active' else ''
+            <Link to={pathname: "/signup", query: @props.location.query} activeClassName='active' className=signup_tab_class>Sign up</Link>
+
+        tabs = if !options.signup_first
             <div className='login-tabs'>
-                {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query} activeClassName='active' className={if path=='login' then 'active' else ''}>Log in</Link>}
-                {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query} activeClassName='active'>Sign up</Link>}
+                {login_tab}
+                {signup_tab}
+            </div>
+        else
+            <div className='login-tabs'>
+                {signup_tab}
+                {login_tab}
             </div>
 
         links =
@@ -349,9 +361,13 @@ setNext = (nextState, replace) ->
 
 LoginPage = ({options}) ->
     Object.assign window.options, options
+    index_route = if not options.signup_first
+        <IndexRoute name="login" component=LoginForm />
+    else
+        <IndexRoute name="signup" component=SignupForm />
     routes =
         <Route path="/" component=App>
-            <IndexRoute name="login" component=LoginForm />
+            {index_route}
             <Route path="login" name="login" component=LoginForm />
             <Route path="reset/:reset_token" name="reset" component=ResetForm />
             <Route path="reset/:reset_token/success" name="reset-success" component=ResetSuccess />
