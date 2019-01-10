@@ -167,6 +167,8 @@ SetupForm = React.createClass
 
     handleResponse: (response) ->
         if response.errors?
+            if response.errors?.show_reset_password_link
+                @setState show_reset_password_link: true
             @handleError response
         else if @props.onSuccess?
             @props.onSuccess response
@@ -179,6 +181,11 @@ SetupForm = React.createClass
                 <h3>{@props.title}</h3>
             }
             <form onSubmit=@trySubmit>
+                {if @state.show_reset_password_link
+                    <a className='reset-password-link' href=@props.forgot_password_url >
+                        Reset password for existing account
+                    </a>
+                }
                 {@renderFields()}
                 <button type='submit' disabled={@state.loading}>
                     {if @state.loading then @props.button.submitting_text else @props.button.text}
@@ -203,6 +210,24 @@ ForgotForm = React.createClass
             email: ''
         errors: {}
         loading: false
+
+    getInitialState: ->
+        initial_values = {}
+        if @props.fields
+            Object.keys(@props.fields).map (f_k) =>
+                initial_values[f_k] = @props.fields[f_k]?.value || ''
+            return {
+                values: initial_values
+                errors: {}
+                loading: false
+            }
+        else
+            return {
+                values:
+                    email: ''
+                errors: {}
+                loading: false
+            }
 
     handleResponse: (response) ->
         if response.errors?
@@ -290,9 +315,15 @@ ResetSuccess = ({location}) ->
         else
             <div>
                 <h3>Successfully set your password</h3>
-                <div className='login-links'>
-                    <Link to={pathname: "/login", query: location.query}>Continue to login</Link>
-                </div>
+                {if !window.setup_user?.id?
+                    <div className='login-links'>
+                        <Link to={pathname: "/login", query: location.query}>Continue to login</Link>
+                    </div>
+                else
+                    <div className='login-links'>
+                        <Link to={pathname: "/setup", query: location.query}>Continue to link your other account using this password</Link>
+                    </div>
+                }
             </div>
         }
     </div>
