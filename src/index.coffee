@@ -257,8 +257,8 @@ ForgotSuccess = React.createClass
                 options.forgot_success_view
             else
                 <div>
-                    <h3>Check your email!</h3>
-                    <p>We sent you an email with instructions to reset your password.</p>
+                    <h3>{options.forgot?.success_title or "Check your email!"}</h3>
+                    <p>{options.forgot?.success_instructions or "We sent you an email with instructions to reset your password."}</p>
                 </div>
             }
         </div>
@@ -314,14 +314,14 @@ ResetSuccess = ({location}) ->
             options.success_view
         else
             <div>
-                <h3>Successfully set your password</h3>
+                <h3>{options.reset?.reset_success_title or "Successfully set your password"}</h3>
                 {if !window.setup_user?.id?
                     <div className='login-links'>
-                        <Link to={pathname: "/login", query: location.query}>Continue to login</Link>
+                        <Link to={pathname: "/login", query: location.query}>{options.reset?.reset_success_continue or "Continue to login"}</Link>
                     </div>
                 else
                     <div className='login-links'>
-                        <Link to={pathname: "/setup", query: location.query}>Continue to link your other account using this password</Link>
+                        <Link to={pathname: "/setup", query: location.query}>{"Continue to link your other account using this password"}</Link>
                     </div>
                 }
             </div>
@@ -338,10 +338,10 @@ App = React.createClass
 
         login_tab = if !options.hide_login
             login_tab_class = if path == 'login' or (!options.signup_first and path=='/') then 'active' else ''
-            <Link to={pathname: "/login", query: @props.location.query} activeClassName='active' className=login_tab_class>Log in</Link>
+            <Link to={pathname: "/login", query: @props.location.query} activeClassName='active' className=login_tab_class>{options.login?.tab_name or "Log in"}</Link>
         signup_tab = if !options.hide_signup
             signup_tab_class = if path == 'signup' or (options.signup_first and path=='/') then 'active' else ''
-            <Link to={pathname: "/signup", query: @props.location.query} activeClassName='active' className=signup_tab_class>Sign up</Link>
+            <Link to={pathname: "/signup", query: @props.location.query} activeClassName='active' className=signup_tab_class>{options.signup?.tab_name or "Sign up"}</Link>
 
         tabs = if !options.signup_first
             <div className='login-tabs'>
@@ -357,17 +357,17 @@ App = React.createClass
         links =
             login:
                 <div className='login-links'>
-                    {if !options.hide_forgot then <Link to={pathname: "/forgot", query: @props.location.query}>Forgot Password?</Link>}
-                    {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query}>Don't have an account?</Link>}
+                    {if !options.hide_forgot then <Link to={pathname: "/forgot", query: @props.location.query}>{options.forgot?.link_text or "Forgot Password?"}</Link>}
+                    {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query}>{options.signup?.link_text or "Don't have an account?"}</Link>}
                 </div>
             signup:
                 <div className='login-links'>
-                    {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query}>Already have an account?</Link>}
+                    {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query}>{options.login?.link_text or "Already have an account?"}</Link>}
                 </div>
             forgot:
                 <div className='login-links'>
-                    {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query}>&laquo; Nevermind</Link>}
-                    {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query}>Don't have an account?</Link>}
+                    {if !options.hide_login then <Link to={pathname: "/login", query: @props.location.query}>&laquo; {options.forgot?.nevermind or "Nevermind"}</Link>}
+                    {if !options.hide_signup then <Link to={pathname: "/signup", query: @props.location.query}>{options.signup?.link_text or "Don't have an account?"}</Link>}
                 </div>
             reset: null
 
